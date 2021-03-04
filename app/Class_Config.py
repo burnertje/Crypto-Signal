@@ -2,8 +2,6 @@
 """
 
 import os
-
-import ccxt
 import yaml
 
 
@@ -58,16 +56,8 @@ class Configuration():
             self.exchanges = user_config['exchanges']
         else:
             self.exchanges = dict()
-        
+
         if 'conditionals' in user_config:
             self.conditionals = user_config['conditionals']
         else:
             self.conditionals = None
-
-        for exchange in ccxt.exchanges:
-            if exchange not in self.exchanges:
-                self.exchanges[exchange] = {
-                    'required': {
-                        'enabled': False
-                    }
-                }

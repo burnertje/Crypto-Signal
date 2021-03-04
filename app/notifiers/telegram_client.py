@@ -1,15 +1,12 @@
 """Notify a user via telegram
 """
 
-import json
-
 import structlog
 import telegram
+from notifiers.utils import NotifierUtils
 from telegram.utils.request import Request
 from tenacity import (retry, retry_if_exception_type, stop_after_attempt,
                       wait_fixed)
-
-from notifiers.utils import NotifierUtils
 
 
 class TelegramNotifier(NotifierUtils):

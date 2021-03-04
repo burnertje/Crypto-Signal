@@ -1,11 +1,8 @@
 """ Ichimoku Indicator
 """
 
-import math
-
 import numpy
 import pandas
-from talib import abstract
 
 from analyzers.utils import IndicatorUtils
 
@@ -57,7 +54,7 @@ class Ichimoku(IndicatorUtils):
         ichimoku_values['tenkansen'] = (low_tenkansen + high_tenkansen) / 2
         ichimoku_values['kijunsen'] = (low_kijunsen + high_kijunsen) / 2
         ichimoku_values['leading_span_a'] = (
-            (ichimoku_values['tenkansen'] + ichimoku_values['kijunsen']) / 2)
+                (ichimoku_values['tenkansen'] + ichimoku_values['kijunsen']) / 2)
         ichimoku_values['leading_span_b'] = (high_senkou + low_senkou) / 2
 
         ichimoku_values['is_hot'] = False

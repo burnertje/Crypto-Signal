@@ -1,8 +1,6 @@
 """ RSI Indicator
 """
 
-import math
-
 import pandas
 from talib import abstract
 
@@ -12,7 +10,7 @@ from analyzers.utils import IndicatorUtils
 
 class RSI(IndicatorUtils):
     def analyze(self, historical_data, period_count=14,
-                signal=['rsi'], hot_thresh=None, cold_thresh=None,  lrsi_filter=None):
+                signal=['rsi'], hot_thresh=None, cold_thresh=None, lrsi_filter=None):
         """Performs an RSI analysis on the historical data
 
         Args:
@@ -53,6 +51,6 @@ class RSI(IndicatorUtils):
                 idx = dataframe['lrsi'].apply(
                     lambda x: x < lower_min or x > lower_max)
                 rsi_values.loc[idx & (
-                    rsi_values['is_hot'] == True), 'is_hot'] = False
+                        rsi_values['is_hot'] == True), 'is_hot'] = False
 
         return rsi_values

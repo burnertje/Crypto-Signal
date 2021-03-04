@@ -1,4 +1,3 @@
-
 """
 Average Directional Index indicator
 """
@@ -114,8 +113,8 @@ class Adx(IndicatorUtils):
         """
 
         for index in range(1, high.shape[0]):
-            up_move = high[index] - high[index-1]
-            down_move = low[index-1] - low[index]
+            up_move = high[index] - high[index - 1]
+            down_move = low[index - 1] - low[index]
 
             if up_move > down_move and up_move > 0:
                 pdm[index] = up_move
@@ -139,13 +138,13 @@ class Adx(IndicatorUtils):
         :return: pdm_smooth, ndm_smooth
         """
 
-        pdm_smooth[period_count-1] = pdm[0:period_count].sum() / period_count
+        pdm_smooth[period_count - 1] = pdm[0:period_count].sum() / period_count
         ndm_smooth[period_count - 1] = ndm[0:period_count].sum() / period_count
         for index in range(period_count, pdm.shape[0]):
             pdm_smooth[index] = (
-                pdm[index-1] - (pdm_smooth[index-1]/period_count)) + pdm_smooth[index-1]
+                                        pdm[index - 1] - (pdm_smooth[index - 1] / period_count)) + pdm_smooth[index - 1]
             ndm_smooth[index] = (
-                ndm[index - 1] - (ndm_smooth[index-1] / period_count)) + ndm_smooth[index-1]
+                                        ndm[index - 1] - (ndm_smooth[index - 1] / period_count)) + ndm_smooth[index - 1]
 
         return pdm_smooth, ndm_smooth
 
@@ -178,9 +177,9 @@ class Adx(IndicatorUtils):
         :return: atr
         """
 
-        atr[period_count-1] = tr[0:period_count].sum() / period_count
+        atr[period_count - 1] = tr[0:period_count].sum() / period_count
         for index in range(period_count, tr.shape[0]):
-            atr[index] = ((atr[index-1] * (period_count - 1)) +
+            atr[index] = ((atr[index - 1] * (period_count - 1)) +
                           tr[index]) / period_count
 
         return atr
@@ -200,11 +199,11 @@ class Adx(IndicatorUtils):
             dx[index] = ((abs(pdi[index] - ndi[index])) /
                          (abs(pdi[index] + ndi[index]))) * 100
 
-        period_count2 = period_count*2
-        adx[period_count2-1] = dx[period_count:period_count2].sum() / \
-            period_count
+        period_count2 = period_count * 2
+        adx[period_count2 - 1] = dx[period_count:period_count2].sum() / \
+                                 period_count
         for index in range(period_count2, dx.shape[0]):
-            adx[index] = ((adx[index-1] * (period_count - 1)) +
+            adx[index] = ((adx[index - 1] * (period_count - 1)) +
                           dx[index]) / period_count
 
         return dx, adx

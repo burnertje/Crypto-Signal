@@ -1,9 +1,6 @@
-
-""" 
+"""
 Bollinger Bands indicator
 """
-
-import math
 
 import pandas
 from talib import BBANDS

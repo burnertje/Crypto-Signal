@@ -28,6 +28,9 @@ class ExchangeInterface():
         self.base_markets = dict()
         self.top_pairs = None
         self.exclude = []
+        self.volume = 0
+        self.top_markets = []
+
 
         # Loads the exchanges using ccxt.
         for exchange in exchange_config:
@@ -46,10 +49,15 @@ class ExchangeInterface():
                             self.base_markets[new_exchange.id] = list()
 
                     if 'top_pairs' in exchange_config[exchange]:
+                        self.base_markets[new_exchange.id] = exchange_config[exchange]['top_pairs']
                         self.top_pairs = exchange_config[exchange]['top_pairs']
 
                     if 'exclude' in exchange_config[exchange]:
                         self.exclude = exchange_config[exchange]['exclude']
+
+                    if 'volume' in exchange_config[exchange]:
+                        self.volume = exchange_config[exchange]['volume']
+
                 else:
                     self.logger.error(
                         "Unable to load exchange %s", new_exchange)
@@ -131,6 +139,7 @@ class ExchangeInterface():
         return historical_data
 
     @retry(retry=retry_if_exception_type(ccxt.NetworkError), stop=stop_after_attempt(3))
+
     def get_top_markets(self, exchange, base_markets):
         top_markets = []
 
@@ -145,21 +154,22 @@ class ExchangeInterface():
                 values = [(k, int(v['quoteVolume']))
                           for k, v in tickers.items() if k.endswith(base_market)]
 
-                values = np.array(
-                    values, dtype=[('market', 'U10'), ('volume', int)])
+                values = np.array(values,
+                                  dtype=[('market', 'U10'),
+                                  ('volume', int)])
+
                 values = np.sort(values, order='volume')
 
-                if self.top_pairs and (len(values) > self.top_pairs):
-                    limit = -self.top_pairs
-                    values = values[limit:]['market'].tolist()
-                else:
-                    values = values[:]['market'].tolist()
+                self.top_markets = values
 
-                top_markets = top_markets + values
+                x = np.where(values['volume'] > self.volume)
+
+                top_markets = values[x]['market']
 
         return top_markets
 
     @retry(retry=retry_if_exception_type(ccxt.NetworkError), stop=stop_after_attempt(3))
+
     def get_exchange_markets(self, exchanges=[], markets=[]):
         """Get market data for all symbol pairs listed on all configured exchanges.
 
@@ -196,14 +206,13 @@ class ExchangeInterface():
                             '%s has no market %s, ignoring.', exchange, market)
             else:
                 if self.base_markets[exchange]:
-                    if self.top_pairs and self.top_pairs > 0:
-                        self.logger.info('Getting top %d pairs from %s in %s', self.top_pairs, str(
-                            self.base_markets[exchange]), exchange)
+                    if self.top_pairs and len(self.top_pairs) > 0:
                         all_markets = {key: curr_markets[key] for key in curr_markets
                                        if curr_markets[key]['quote'] in self.base_markets[exchange]}
 
-                        top_markets = self.get_top_markets(
-                            exchange, self.base_markets[exchange])
+                        top_markets = self.get_top_markets(exchange, self.base_markets[exchange])
+
+                        self.logger.info('Getting top %d pairs from %s in %s', len(top_markets), str(self.base_markets[exchange]), exchange)
 
                         exchange_markets[exchange] = {
                             k: v for k, v in all_markets.items() if k in top_markets}

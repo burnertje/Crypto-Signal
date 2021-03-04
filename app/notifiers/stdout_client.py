@@ -1,8 +1,6 @@
 """Notify a user via stdout
 """
 
-import structlog
-
 from notifiers.utils import NotifierUtils
 
 

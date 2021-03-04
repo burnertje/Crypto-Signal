@@ -1,8 +1,6 @@
 """ MACD Cross
 """
 
-import math
-
 import pandas
 import talib
 

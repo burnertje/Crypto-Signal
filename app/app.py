@@ -2,17 +2,15 @@
 """Main app module
 """
 
-import concurrent.futures
 import sys
 import time
 from threading import Thread
 
 import structlog
 
-import conf
 import logs
-from behaviour import Behaviour
-from conf import Configuration
+from behaviour import CL_Behaviour
+from Class_Config import Configuration
 from exchange import ExchangeInterface
 from notification import Notifier
 
@@ -37,8 +35,15 @@ def main():
         market_data = exchange_interface.get_exchange_markets(
             markets=market_pairs)
     else:
-        logger.info("No configured markets, using all available on exchange.")
-        market_data = exchange_interface.get_exchange_markets()
+        if settings['top_pairs']:
+            logger.info("using top pair markets.")
+            market_data = exchange_interface.get_exchange_markets()
+        else:
+            logger.info("No configured markets, using all available on exchange.")
+            market_data = exchange_interface.get_exchange_markets()
+
+
+
 
     thread_list = []
 
@@ -50,10 +55,10 @@ def main():
                 key: market_data[exchange][key] for key in chunk}
 
             notifier = Notifier(
-                config.notifiers, config.indicators, config.conditionals, market_data_chunk)
-            behaviour = Behaviour(config, exchange_interface, notifier)
+                config.notifiers, config.indicators, config.conditionals, market_data_chunk, exchange_interface.top_markets)
+            behaviour = CL_Behaviour(config, exchange_interface, notifier)
 
-            workerName = "Worker-{}".format(num)
+            workerName = "Worker - {}".format(num)
             worker = AnalysisWorker(
                 workerName, behaviour, notifier, market_data_chunk, settings, logger)
             thread_list.append(worker)

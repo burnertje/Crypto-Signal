@@ -4,9 +4,8 @@
 import smtplib
 
 import structlog
-from tenacity import retry, retry_if_exception_type, stop_after_attempt
-
 from notifiers.utils import NotifierUtils
+from tenacity import retry, stop_after_attempt
 
 
 class GmailNotifier(NotifierUtils):

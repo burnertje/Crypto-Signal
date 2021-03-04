@@ -1,7 +1,6 @@
 """ Utilities for technical indicators
 """
 
-import math
 from datetime import datetime
 
 import pandas

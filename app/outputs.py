@@ -1,8 +1,6 @@
 """ Handles outputting results to the terminal.
 """
 
-import json
-
 import numpy as np
 import structlog
 
@@ -116,7 +114,7 @@ class Output():
             str: Completed CSV message
         """
 
-        logger.warn(
+        """logger.warn(
             'WARNING: CSV output is deprecated and will be removed in a future version')
 
         output = str()
@@ -173,7 +171,7 @@ class Output():
 
                     output += '\n{}'.format(new_output)
 
-        return output
+        return output"""
 
     def to_json(self, results, market_pair):
         """Creates the JSON to output to the CLI
@@ -186,7 +184,7 @@ class Output():
             str: Completed JSON message
         """
 
-        logger.warn(
+        """logger.warn(
             'WARNING: JSON output is deprecated and will be removed in a future version')
 
         for indicator_type in results:
@@ -199,4 +197,4 @@ class Output():
         formatted_results = {'pair': market_pair, 'results': results}
         output = json.dumps(formatted_results)
         output += '\n'
-        return output
+        return output"""

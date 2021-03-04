@@ -11,6 +11,7 @@ settings:
   start_worker_interval: 60
   market_data_chunk_size: 20
   market_pairs: null
+  top_pairs: null
   timezone: UTC
 
 exchanges: null
@@ -152,7 +153,7 @@ informants:
       alert_enabled: true
       signal:
         - lrsi
-      candle_period: 1d  
+      candle_period: 1d
   vwap:
     - enabled: true
       signal:

@@ -1,16 +1,16 @@
 """ MACD Cross
 """
 
-import math
 import pandas
-
 from talib import abstract
+
 from analyzers.utils import IndicatorUtils
 
 
 class StochRSICross(IndicatorUtils):
 
-    def analyze(self, historical_data, period_count=14, signal=['stoch_rsi'], smooth_k = 10, smooth_d = 3, hot_thresh=None, cold_thresh=None):
+    def analyze(self, historical_data, period_count=14, signal=['stoch_rsi'], smooth_k=10, smooth_d=3, hot_thresh=None,
+                cold_thresh=None):
         """Performs a StochRSI cross analysis on the historical data
 
         Args:
@@ -28,7 +28,8 @@ class StochRSICross(IndicatorUtils):
         dataframe = self.convert_to_dataframe(historical_data)
 
         rsi = abstract.RSI(dataframe, period_count)
-        stochrsi  = (rsi - rsi.rolling(period_count).min()) / (rsi.rolling(period_count).max() - rsi.rolling(period_count).min())
+        stochrsi = (rsi - rsi.rolling(period_count).min()) / (
+                    rsi.rolling(period_count).max() - rsi.rolling(period_count).min())
         stochrsi_K = stochrsi.rolling(smooth_k).mean()
         stochrsi_D = stochrsi_K.rolling(smooth_d).mean()
 

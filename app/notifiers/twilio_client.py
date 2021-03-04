@@ -2,9 +2,8 @@
 """
 
 import structlog
-from twilio.rest import Client
-
 from notifiers.utils import NotifierUtils
+from twilio.rest import Client
 
 
 class TwilioNotifier(NotifierUtils):

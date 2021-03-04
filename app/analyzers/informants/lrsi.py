@@ -13,8 +13,6 @@
     best balance found theoretically at the default of ``0.5``    
 """
 
-import numpy as np
-
 from analyzers.utils import IndicatorUtils
 
 

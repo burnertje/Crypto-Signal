@@ -1,8 +1,6 @@
 """ EMA Indicator
 """
 
-import math
-
 import pandas
 from talib import abstract
 

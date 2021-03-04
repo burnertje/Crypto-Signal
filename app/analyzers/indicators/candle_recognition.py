@@ -1,5 +1,3 @@
-
-import numpy
 import pandas
 import talib
 

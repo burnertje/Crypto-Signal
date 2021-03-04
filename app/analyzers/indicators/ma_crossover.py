@@ -1,17 +1,15 @@
 """ Custom Indicator Increase In  Volume
 """
 
-import math
-
 import pandas
 from talib import abstract
 
 from analyzers.utils import IndicatorUtils
 
-
 class MACrossover(IndicatorUtils):
 
-    def analyze(self, historical_data, signal=['close'], hot_thresh=None, cold_thresh=None, exponential=True, ma_fast=10, ma_slow=50):
+    def analyze(self, historical_data, signal=['close'], hot_thresh=None, cold_thresh=None, exponential=True,
+                ma_fast=10, ma_slow=50):
         """Performs an analysis about the increase in volumen on the historical data
 
         Args:

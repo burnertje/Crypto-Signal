@@ -1,12 +1,7 @@
 """Executes the trading strategies and analyzes the results.
 """
 
-import math
-from datetime import datetime
-
-import pandas
 import structlog
-from talib import abstract
 
 from analyzers import *
 from analyzers.indicators import *
@@ -29,7 +24,7 @@ class StrategyAnalyzer():
         """
 
         dispatcher = {
-            'candle_recognition': candle_recognition.Candle_recognition().analyze,
+            'candle_recognition: candle_recognition.Candle_recognition().analyze,'
             'aroon_oscillator': aroon_oscillator.Aroon_oscillator().analyze,
             'klinger_oscillator': klinger_oscillator.Klinger_oscillator().analyze,
             'adx': adx.Adx().analyze,
@@ -78,6 +73,7 @@ class StrategyAnalyzer():
 
         dispatcher = {
             'std_crossover': crossover.CrossOver().analyze
+
         }
 
         return dispatcher

@@ -13,7 +13,8 @@ class MARibbon(IndicatorUtils):
 
     # Exponential Moving Average
     def EMA(self, df, n, field='close'):
-        return pandas.Series(talib.EMA(df[field].astype('f8').values, n), name='EMA_' + field.upper() + '_' + str(n), index=df.index)
+        return pandas.Series(talib.EMA(df[field].astype('f8').values, n), name='EMA_' + field.upper() + '_' + str(n),
+                             index=df.index)
 
     def MA_RIBBON(self, df, ma_series):
         ma_array = np.zeros([len(df), len(ma_series)])
@@ -36,9 +37,9 @@ class MARibbon(IndicatorUtils):
                     ma_array[idy, :], range(len(ma_series), 0, -1))
                 dist[idy] = max(ma_array[idy, :]) - min(ma_array[idy, :])
 
-        corr_ts = pandas.Series(corr*100, index=df.index,
+        corr_ts = pandas.Series(corr * 100, index=df.index,
                                 name="MARIBBON_CORR").round(2)
-        pval_ts = pandas.Series(pval*100, index=df.index,
+        pval_ts = pandas.Series(pval * 100, index=df.index,
                                 name="MARIBBON_PVAL").round(2)
         dist_ts = pandas.Series(dist, index=df.index, name="MARIBBON_DIST")
 
